@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MUST University | Programa de Doutorado</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dim: rgba(201,168,76,0.15);
+    --dark: #0A0A0F;
+    --dark-card: #16161F;
+    --dark-border: rgba(201,168,76,0.2);
+    --text: #F0EDE6;
+    --text-muted: #8A8578;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(201,168,76,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 90% 80%, rgba(201,168,76,0.04) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .container { max-width: 860px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+  header { padding: 40px 0 20px; text-align: center; border-bottom: 1px solid var(--dark-border); margin-bottom: 60px; }
+  .logo-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--gold-dim); border: 1px solid var(--dark-border);
+    border-radius: 40px; padding: 8px 20px; margin-bottom: 28px;
+  }
+  .logo-badge span { font-family: 'Cormorant Garamond', serif; font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .logo-dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+  header h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(32px,5vw,52px); font-weight: 300; line-height: 1.15; margin-bottom: 16px; color: var(--white); }
+  header h1 em { font-style: italic; color: var(--gold-light); }
+  header p { font-size: 15px; color: var(--text-muted); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  #gate {
+    background: var(--dark-card); border: 1px solid var(--dark-border);
+    border-radius: 16px; padding: 48px; text-align: center;
+    margin-bottom: 60px; position: relative; overflow: hidden;
+  }
+  #gate::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  #gate .gate-icon { font-size: 42px; margin-bottom: 20px; display: block; }
+  #gate h2 { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 500; margin-bottom: 8px; color: var(--white); }
+  #gate > p { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { text-align: left; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { display: block; font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--gold); margin-bottom: 7px; }
+  .form-group input, .form-group select {
+    width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 10px; padding: 13px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif;
+    color: var(--white); transition: all 0.25s; outline: none; -webkit-appearance: none; appearance: none;
+  }
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; cursor: pointer;
+  }
+  .form-group select option { background: #16161F; color: var(--white); }
+  .form-group input::placeholder { color: var(--text-muted); }
+  .form-group input:focus, .form-group select:focus { border-color: var(--gold); background: rgba(201,168,76,0.06); box-shadow: 0 0 0 3px rgba(201,168,76,0.08); }
+
+  .btn-primary {
+    width: 100%; background: var(--gold); color: var(--dark); border: none;
+    border-radius: 10px; padding: 16px 32px; font-size: 15px; font-weight: 600;
+    font-family: 'DM Sans', sans-serif; letter-spacing: 0.5px; cursor: pointer;
+    margin-top: 18px; transition: all 0.25s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.25); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+  .privacy { font-size: 12px; color: var(--text-muted); margin-top: 16px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+
+  #video-section { display: none; animation: fadeUp 0.6s ease forwards; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  .candidate-badge { display: flex; align-items: center; gap: 12px; background: var(--gold-dim); border: 1px solid var(--dark-border); border-radius: 12px; padding: 14px 20px; margin-bottom: 32px; }
+  .candidate-avatar { width: 38px; height: 38px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 16px; font-weight: 700; color: var(--dark); flex-shrink: 0; }
+  .candidate-info .name { font-size: 14px; font-weight: 500; color: var(--white); }
+  .candidate-info .status { font-size: 12px; color: var(--gold); margin-top: 2px; }
+
+  .video-wrapper { position: relative; border-radius: 16px; overflow: hidden; background: #000; border: 1px solid var(--dark-border); margin-bottom: 32px; box-shadow: 0 24px 80px rgba(0,0,0,0.6); }
+  .video-wrapper::before { content: ''; display: block; padding-top: 56.25%; }
+  .video-wrapper iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+  .progress-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 14px; padding: 24px 28px; margin-bottom: 20px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .progress-header span { font-size: 13px; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .progress-pct { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; color: var(--gold); }
+  .progress-bar { height: 4px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg,var(--gold),var(--gold-light)); border-radius: 99px; width: 0%; transition: width 0.5s ease; }
+
+  .info-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 32px; }
+  .info-card { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 12px; padding: 18px; }
+  .info-card .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-muted); margin-bottom: 6px; }
+  .info-card .value { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 600; color: var(--gold); line-height: 1.3; }
+
+  .divider { height: 1px; background: var(--dark-border); margin: 40px 0; }
+
+  .cta-block { background: var(--dark-card); border: 1px solid var(--dark-border); border-radius: 16px; padding: 40px; text-align: center; position: relative; overflow: hidden; margin-bottom: 60px; }
+  .cta-block::before { content:''; position:absolute; bottom:0;left:0;right:0; height:2px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .cta-block h3 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 400; color: var(--white); margin-bottom: 10px; }
+  .cta-block p { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 28px; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .btn-whatsapp { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #fff; border: none; border-radius: 10px; padding: 15px 32px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: all 0.25s; }
+  .btn-whatsapp:hover { background: #20BD5A; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,211,102,0.3); }
+
+  footer { border-top: 1px solid var(--dark-border); padding: 28px 0; text-align: center; }
+  footer p { font-size: 12px; color: var(--text-muted); letter-spacing: 0.5px; }
+
+  .toast { position: fixed; bottom: 28px; right: 28px; background: var(--dark-card); border: 1px solid var(--gold); border-radius: 12px; padding: 16px 22px; font-size: 14px; color: var(--white); z-index: 999; display: none; animation: slideIn 0.4s ease; max-width: 320px; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+  @keyframes slideIn { from{opacity:0;transform:translateX(30px)} to{opacity:1;transform:translateX(0)} }
+  .toast strong { color: var(--gold); }
+
+  .status-zapi { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); margin-top: 10px; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: #25D366; }
+
+  @media(max-width:600px){
+    #gate{padding:32px 20px;}
+    .form-row{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr 1fr;}
+    .cta-block{padding:28px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo-badge">
+      <div class="logo-dot"></div>
+      <span>MUST University · PhD Program</span>
+    </div>
+    <h1>Sua jornada para o <em>Doutorado</em><br>começa aqui</h1>
+    <p>Assista à apresentação exclusiva do programa e descubra como elevar sua carreira ao mais alto nível acadêmico.</p>
+  </header>
+
+  <div id="gate">
+    <span class="gate-icon">🎓</span>
+    <h2>Antes de assistir, se identifique</h2>
+    <p>Preencha seus dados para liberar o acesso ao vídeo.<br>Suas informações são tratadas com total privacidade.</p>
+
+    <div class="form-row">
+      <div class="form-group full">
+        <label>Nome completo</label>
+        <input type="text" id="input-nome" placeholder="Ex: Maria Fernanda Souza" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp (com DDD)</label>
+        <input type="tel" id="input-whatsapp" placeholder="(11) 99999-9999" maxlength="16">
+      </div>
+      <div class="form-group">
+        <label>Cidade</label>
+        <input type="text" id="input-cidade" placeholder="Ex: São Paulo">
+      </div>
+      <div class="form-group">
+        <label>Área de atuação</label>
+        <input type="text" id="input-area" placeholder="Ex: Gestão, Educação, Saúde...">
+      </div>
+      <div class="form-group">
+        <label>Programa de interesse</label>
+        <select id="input-programa">
+          <option value="" disabled selected>Selecione o programa</option>
+          <option value="Doutorado em Administração">Doutorado em Administração</option>
+          <option value="Doutorado em Educação">Doutorado em Educação</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn-primary" id="btn-liberar" onclick="liberar()">▶ Assistir à apresentação</button>
+    <p class="privacy">🔒 Seus dados não serão compartilhados com terceiros</p>
+    <div class="status-zapi"><div class="status-dot"></div> Notificação automática ativa</div>
+  </div>
+
+  <div id="video-section">
+    <div class="candidate-badge">
+      <div class="candidate-avatar" id="avatar-initial">?</div>
+      <div class="candidate-info">
+        <div class="name" id="nome-display">—</div>
+        <div class="status">✓ Acesso liberado · Assistindo agora</div>
+      </div>
+    </div>
+
+    <div class="video-wrapper">
+      <iframe id="yt-player" src=""
+        title="MUST University — Programa de Doutorado"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+
+    <div class="progress-card">
+      <div class="progress-header">
+        <span>Progresso do vídeo</span>
+        <span class="progress-pct" id="pct-display">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="label">Horário de acesso</div>
+        <div class="value" id="hora-acesso">—</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Programa</div>
+        <div class="value" id="programa-display">—</div>
+      </div>
+      <div class="info-card">
+        <div class="label">Status</div>
+        <div class="value" id="status-display">Assistindo</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="cta-block">
+      <h3>Pronto para dar o próximo passo?</h3>
+      <p>Fale agora com o seu consultor e receba todas as informações sobre o processo de ingresso no Doutorado da MUST University.</p>
+      <a class="btn-whatsapp" id="btn-falar" href="#" target="_blank">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Falar com consultor
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Tom Borges · Todos os direitos reservados</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast">
+  <strong>✓ Notificação enviada!</strong><br>
+  Seu consultor foi avisado automaticamente via WhatsApp.
+</div>
+
+<script>
+  // ── Configurações Z-API ──────────────────────────────────────────────────
+  const ZAPI_URL   = 'https://api.z-api.io/instances/3F163D617E13C1A29A959270C2FA2FFD/token/BD9DCA3CEFC92DF752744296/send-text';
+  const MEU_NUMERO = '5511939473816'; // Seu WhatsApp que receberá as notificações
+  const MATERIAL   = 'Vídeo — Programa de Doutorado MUST University';
+
+  // ── Configurações do vídeo ───────────────────────────────────────────────
+  const VIDEO_ID  = 'sbK7xU9UwWQ';
+  const VIDEO_URL = `https://www.youtube.com/embed/${VIDEO_ID}?enablejsapi=1&rel=0&modestbranding=1`;
+
+
+  // ── SUPABASE CONFIG ─────────────────────────────────────
+  const SUPABASE_URL = 'https://etdbrjnxmqqegtsmeufg.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_5VftYdg--U3dWq7JWP9RaQ_nKZUu3no';
+  const PAGINA_NOME  = 'Vídeo — Programa de Doutorado MUST University';
+  const PAGINA_SCORE = 15;
+  const GATILHOS     = [120, 200, 400];
+
+  const sbHeaders = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': 'Bearer ' + SUPABASE_KEY,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+  };
+
+  async function gravarSupabase(cand) {
+    const utm = window._utm || { source: 'direto', campaign: '—' };
+    const agora = new Date().toLocaleString('pt-BR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+    // 1. Verificar/criar lead
+    let leadId = null;
+    let scoreAnterior = 0;
+    const existing = await fetch(SUPABASE_URL + '/rest/v1/leads?whatsapp=eq.' + encodeURIComponent(cand.whatsapp) + '&select=id,score_total', { headers: sbHeaders }).then(r => r.json());
+
+    if (existing && existing.length > 0) {
+      leadId = existing[0].id;
+      scoreAnterior = existing[0].score_total || 0;
+    } else {
+      const novo = await fetch(SUPABASE_URL + '/rest/v1/leads', {
+        method: 'POST', headers: sbHeaders,
+        body: JSON.stringify({ nome: cand.nome, whatsapp: cand.whatsapp, cidade: cand.cidade||'', area: cand.area||'', programa: cand.programa||'', score_total: 0 })
+      }).then(r => r.json());
+      if (novo && novo[0]) leadId = novo[0].id;
+    }
+
+    if (!leadId) return;
+
+    // 2. Registrar acesso
+    await fetch(SUPABASE_URL + '/rest/v1/acessos', {
+      method: 'POST', headers: sbHeaders,
+      body: JSON.stringify({ lead_id: leadId, whatsapp: cand.whatsapp, pagina: PAGINA_NOME, score_pagina: PAGINA_SCORE, utm_source: utm.source, utm_campaign: utm.campaign })
+    });
+
+    // 3. Verificar gatilhos
+    const novoScore = scoreAnterior + PAGINA_SCORE;
+    GATILHOS.forEach(async g => {
+      if (scoreAnterior < g && novoScore >= g) {
+        await fetch(SUPABASE_URL + '/rest/v1/alertas', {
+          method: 'POST', headers: sbHeaders,
+          body: JSON.stringify({ lead_id: leadId, whatsapp: cand.whatsapp, nome: cand.nome, score: novoScore, gatilho: g })
+        });
+        enviarZAPI_Gatilho(cand, novoScore, g, agora);
+      }
+    });
+  }
+
+  function enviarZAPI_Gatilho(cand, score, gatilho, agora) {
+    const emoji = score >= 400 ? '🔥' : score >= 200 ? '⚡' : '📍';
+    const msg = emoji + ' *ALERTA DE SCORE — ' + gatilho + ' pts!*\n\n' +
+      '👤 *Lead:* ' + cand.nome + '\n📱 *WhatsApp:* ' + cand.whatsapp +
+      '\n🏙️ *Cidade:* ' + (cand.cidade||'—') + '\n💼 *Área:* ' + (cand.area||'—') +
+      '\n🎓 *Programa:* ' + cand.programa +
+      '\n📌 *Material:* ' + PAGINA_NOME +
+      '\n📊 *Score:* ' + score + ' pts\n🕐 *Horário:* ' + agora +
+      '\n\n_Lead qualificado — entre em contato!_';
+    fetch(ZAPI_URL, { method:'POST', headers:{'Content-Type':'application/json','Client-Token':CLIENT_TOKEN}, body: JSON.stringify({phone: MEU_NUMERO, message: msg}) }).catch(()=>{});
+  }
+
+  let candidato = {};
+  let concluded = false;
+  let notificacaoEnviada = false;
+
+  // ── Recupera dados salvos (identificação persistente) ────────────────────
+  window.addEventListener('load', () => {
+    const salvo = JSON.parse(localStorage.getItem('must_candidato') || '{}');
+    if (salvo.nome) {
+      document.getElementById('input-nome').value     = salvo.nome     || '';
+      document.getElementById('input-whatsapp').value = salvo.whatsapp || '';
+      document.getElementById('input-cidade').value   = salvo.cidade   || '';
+      document.getElementById('input-area').value     = salvo.area     || '';
+      if (salvo.programa) document.getElementById('input-programa').value = salvo.programa;
+    }
+
+    // Lê UTM da URL
+    const params = new URLSearchParams(window.location.search);
+    window._utm = {
+      source  : params.get('utm_source')   || 'direto',
+      medium  : params.get('utm_medium')   || '—',
+      campaign: params.get('utm_campaign') || '—',
+    };
+  });
+
+  // ── Máscara WhatsApp ─────────────────────────────────────────────────────
+  document.getElementById('input-whatsapp').addEventListener('input', function(e) {
+    let v = e.target.value.replace(/\D/g, '');
+    v = v.replace(/^(\d{2})(\d)/, '($1) $2');
+    v = v.replace(/(\d{5})(\d)/, '$1-$2');
+    e.target.value = v;
+  });
+
+  // ── Liberar vídeo ────────────────────────────────────────────────────────
+  function liberar() {
+    const nome     = document.getElementById('input-nome').value.trim();
+    const whatsapp = document.getElementById('input-whatsapp').value.trim();
+    const cidade   = document.getElementById('input-cidade').value.trim();
+    const area     = document.getElementById('input-area').value.trim();
+    const programa = document.getElementById('input-programa').value;
+
+    if (!nome || nome.length < 3)               { alert('Por favor, informe seu nome completo.'); return; }
+    if (whatsapp.replace(/\D/g,'').length < 10) { alert('Por favor, informe um WhatsApp válido com DDD.'); return; }
+    if (!cidade)                                { alert('Por favor, informe sua cidade.'); return; }
+    if (!area)                                  { alert('Por favor, informe sua área de atuação.'); return; }
+    if (!programa)                              { alert('Por favor, selecione o programa de interesse.'); return; }
+
+    const agora   = new Date();
+    const horario = agora.toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    const hora    = agora.toLocaleTimeString('pt-BR', { hour:'2-digit', minute:'2-digit' });
+
+    candidato = { nome, whatsapp, cidade, area, programa, horario };
+
+    // Salva no localStorage para identificação persistente nas outras páginas
+    localStorage.setItem('must_candidato', JSON.stringify(candidato));
+
+    // Atualiza UI
+    document.getElementById('nome-display').textContent     = nome;
+    document.getElementById('avatar-initial').textContent   = nome.charAt(0).toUpperCase();
+    document.getElementById('hora-acesso').textContent      = hora;
+    document.getElementById('programa-display').textContent = programa.replace('Doutorado em ', '');
+    document.getElementById('yt-player').src = VIDEO_URL;
+
+    const msgCandidato = encodeURIComponent(`Olá! Acabei de assistir à apresentação do ${programa} da MUST University. Quero saber mais sobre o processo de ingresso.`);
+    document.getElementById('btn-falar').href = `https://wa.me/${MEU_NUMERO}?text=${msgCandidato}`;
+
+    document.getElementById('gate').style.display = 'none';
+    document.getElementById('video-section').style.display = 'block';
+
+    // Dispara notificação automática via Z-API
+    enviarZAPI('acesso');
+  }
+
+  // ── Envio automático via Z-API ────────────────────────────────────────────
+  async function enviarZAPI(evento) {
+    if (notificacaoEnviada && evento === 'acesso') return;
+    notificacaoEnviada = true;
+
+    const agora = new Date().toLocaleString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
+    const isAcesso = evento === 'acesso';
+    const utm = window._utm || {};
+
+    const mensagem = `${isAcesso ? '🎓' : '✅'} *${isAcesso ? 'NOVO ACESSO — Vídeo Doutorado' : 'VÍDEO CONCLUÍDO 🔥'}*
+
+👤 *Candidato:* ${candidato.nome}
+📱 *WhatsApp:* ${candidato.whatsapp}
+🏙️ *Cidade:* ${candidato.cidade}
+💼 *Área:* ${candidato.area}
+🎓 *Programa:* ${candidato.programa}
+📌 *Material:* ${MATERIAL}
+🕐 *Horário:* ${agora}
+🔗 *Origem:* ${utm.source} / ${utm.campaign}
+
+${isAcesso ? '_Entre em contato para fazer o follow-up!_' : '_Lead quente — ligue agora!_ 🔥'}`;
+
+    try {
+      const response = await fetch(ZAPI_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Client-Token': 'F7acbe992e8124647bd7c9b16e3a4e084S' },
+        body: JSON.stringify({
+          phone  : MEU_NUMERO,
+          message: mensagem
+        })
+      });
+
+      if (response.ok) {
+        mostrarToast(true);
+      } else {
+        console.warn('Z-API retornou erro:', response.status);
+        mostrarToast(false);
+      }
+    } catch (err) {
+      console.warn('Erro ao chamar Z-API:', err);
+      mostrarToast(false);
+    }
+  }
+
+  // ── Toast ─────────────────────────────────────────────────────────────────
+  function mostrarToast(sucesso = true) {
+    const t = document.getElementById('toast');
+    t.innerHTML = sucesso
+      ? '<strong>✓ Notificação enviada!</strong><br>Seu consultor foi avisado automaticamente via WhatsApp.'
+      : '<strong>⚠ Aviso registrado</strong><br>Acesso registrado com sucesso.';
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 5000);
+  }
+
+  // ── Progress bar ──────────────────────────────────────────────────────────
+  let progressPct = 0;
+  document.getElementById('yt-player').addEventListener('load', function() {
+    setInterval(() => {
+      if (progressPct < 95) progressPct = Math.min(progressPct + Math.random() * 0.4, 95);
+      document.getElementById('progress-fill').style.width = progressPct + '%';
+      document.getElementById('pct-display').textContent = Math.round(progressPct) + '%';
+      if (progressPct >= 90 && !concluded) {
+        concluded = true;
+        document.getElementById('status-display').textContent = 'Concluído ✓';
+        enviarZAPI('concluiu');
+      }
+    }, 4000);
+  });
+</script>
+</body>
+</html>
